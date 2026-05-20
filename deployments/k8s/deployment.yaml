@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openfinance-fake
+  labels:
+    app: openfinance-fake
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: openfinance-fake
+  template:
+    metadata:
+      labels:
+        app: openfinance-fake
+    spec:
+      containers:
+        - name: app
+          image: app-openfinance-fake-no-database:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MOCKS_FILE
+              value: /data/mocks.json
+            - name: SEED_FILE
+              value: /seed/mocks.json
+            - name: PORT
+              value: "8080"
+          volumeMounts:
+            - name: mocks
+              mountPath: /data
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      volumes:
+        - name: mocks
+          persistentVolumeClaim:
+            claimName: openfinance-fake-mocks
