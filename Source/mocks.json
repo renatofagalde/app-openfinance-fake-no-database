@@ -1,0 +1,268 @@
+{
+  "version": 1,
+  "routes": {
+    "POST /auth/realms/:realm/protocol/openid-connect/token": {
+      "skipConsent": true,
+      "status": 200,
+      "body": {
+        "access_token": "fake-token-openfinance-fake-12345",
+        "token_type": "Bearer",
+        "expires_in": 300,
+        "scope": "openid"
+      }
+    },
+
+    "GET /accounts": {
+      "permission": "ACCOUNTS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "brandName": "Fake Bank",
+            "companyCnpj": "00000000000191",
+            "type": "CONTA_DEPOSITO_A_VISTA",
+            "compeCode": "001",
+            "branchCode": "0001",
+            "number": "12345678",
+            "checkDigit": "9",
+            "accountId": "fake-account-id-001"
+          }
+        ],
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /accounts/:accountId": {
+      "permission": "ACCOUNTS_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "compeCode": "001",
+          "branchCode": "0001",
+          "number": "12345678",
+          "checkDigit": "9",
+          "type": "CONTA_DEPOSITO_A_VISTA",
+          "subtype": "INDIVIDUAL",
+          "currency": "BRL"
+        },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /accounts/:accountId/balances": {
+      "permission": "ACCOUNTS_BALANCES_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "availableAmount": { "amount": "1000.00", "currency": "BRL" },
+          "blockedAmount": { "amount": "0.00", "currency": "BRL" },
+          "automaticallyInvestedAmount": { "amount": "0.00", "currency": "BRL" },
+          "updateDateTime": "2026-05-19T10:00:00Z"
+        },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /accounts/:accountId/transactions": {
+      "permission": "ACCOUNTS_TRANSACTIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "transactionId": "fake-txn-001",
+            "completedAuthorisedPaymentType": "TRANSACAO_EFETIVADA",
+            "creditDebitType": "DEBITO",
+            "transactionName": "Fake Transaction",
+            "type": "PIX",
+            "transactionAmount": { "amount": "100.00", "currency": "BRL" },
+            "transactionDateTime": "2026-05-19T10:00:00Z"
+          }
+        ],
+        "meta": { "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /accounts/:accountId/transactions-current": {
+      "permission": "ACCOUNTS_TRANSACTIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "transactionId": "fake-txn-current-001",
+            "completedAuthorisedPaymentType": "TRANSACAO_EFETIVADA",
+            "creditDebitType": "CREDITO",
+            "transactionName": "Fake Current Transaction",
+            "type": "TED",
+            "transactionAmount": { "amount": "500.00", "currency": "BRL" },
+            "transactionDateTime": "2026-05-19T10:00:00Z"
+          }
+        ],
+        "meta": { "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /accounts/:accountId/overdraft-limits": {
+      "permission": "ACCOUNTS_OVERDRAFT_LIMITS_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "overdraftContractedLimit": { "amount": "5000.00", "currency": "BRL" },
+          "overdraftUsedLimit": { "amount": "0.00", "currency": "BRL" },
+          "unarrangedOverdraftAmount": { "amount": "0.00", "currency": "BRL" }
+        },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+
+    "GET /credit-cards-accounts/v2/accounts": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "creditCardAccountId": "fake-cc-acc-001",
+            "brandName": "Fake Bank",
+            "companyCnpj": "00000000000191",
+            "name": "Cartao Platinum",
+            "productType": "PLATINUM",
+            "creditCardNetwork": "VISA"
+          }
+        ],
+        "links": { "self": "https://fake/credit-cards-accounts/v2/accounts" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /credit-cards-accounts/v2/accounts/:creditCardAccountId": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "name": "Cartao Platinum",
+          "productType": "PLATINUM",
+          "creditCardNetwork": "VISA",
+          "paymentMethod": [
+            { "identificationNumber": "1234", "isMultipleCreditCard": false }
+          ]
+        },
+        "links": { "self": "https://fake" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /credit-cards-accounts/v2/accounts/:creditCardAccountId/bills": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_BILLS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "billId": "fake-bill-202604",
+            "dueDate": "2026-05-10",
+            "billClosingDate": "2026-05-03",
+            "billTotalAmount": { "amount": "1234.56", "currency": "BRL" },
+            "billMinimumAmount": { "amount": "123.45", "currency": "BRL" },
+            "isInstalment": false,
+            "financeCharges": [],
+            "payments": []
+          }
+        ],
+        "links": { "self": "https://fake" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /credit-cards-accounts/v2/accounts/:creditCardAccountId/bills/:billId/transactions": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_BILLS_TRANSACTIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "transactionId": "fake-tx-bill-001",
+            "transactionName": "Compra Mercado",
+            "billId": "fake-bill-202604",
+            "creditDebitType": "DEBITO",
+            "transactionType": "CARTAO_CREDITO",
+            "paymentType": "VISTA",
+            "amount": { "amount": "150.00", "currency": "BRL" },
+            "brazilianAmount": { "amount": "150.00", "currency": "BRL" },
+            "transactionDateTime": "2026-04-22T10:00:00Z",
+            "billPostDate": "2026-04-23",
+            "payeeMCC": 5411
+          }
+        ],
+        "links": { "self": "https://fake" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /credit-cards-accounts/v2/accounts/:creditCardAccountId/limits": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_LIMITS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "creditLineLimitType": "TOTAL",
+            "consolidationType": "CONSOLIDADO",
+            "isLimitFlexible": false,
+            "limitAmount": { "amount": "10000.00", "currency": "BRL", "limitAmountReason": "LIMITE_CREDITO_TOTAL" },
+            "usedAmount": { "amount": "1234.56", "currency": "BRL" },
+            "availableAmount": { "amount": "8765.44", "currency": "BRL" },
+            "customizedLimitAmount": { "amount": "0.00", "currency": "BRL" }
+          }
+        ],
+        "links": { "self": "https://fake" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /credit-cards-accounts/v2/accounts/:creditCardAccountId/transactions": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_TRANSACTIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "transactionId": "fake-tx-001",
+            "transactionName": "Compra Posto",
+            "billId": "fake-bill-202604",
+            "creditDebitType": "DEBITO",
+            "transactionType": "CARTAO_CREDITO",
+            "paymentType": "VISTA",
+            "amount": { "amount": "200.00", "currency": "BRL" },
+            "brazilianAmount": { "amount": "200.00", "currency": "BRL" },
+            "transactionDateTime": "2026-04-20T08:00:00Z",
+            "billPostDate": "2026-04-21",
+            "billForecastDate": "2026-05-10",
+            "payeeMCC": 5541
+          }
+        ],
+        "links": { "self": "https://fake" },
+        "meta": { "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /credit-cards-accounts/v2/accounts/:creditCardAccountId/transactions-current": {
+      "permission": "CREDIT_CARDS_ACCOUNTS_TRANSACTIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "transactionId": "fake-tx-current-001",
+            "transactionName": "Assinatura Streaming",
+            "creditDebitType": "DEBITO",
+            "transactionType": "CARTAO_CREDITO",
+            "paymentType": "RECORRENTE",
+            "amount": { "amount": "39.90", "currency": "BRL" },
+            "brazilianAmount": { "amount": "39.90", "currency": "BRL" },
+            "transactionDateTime": "2026-05-18T22:00:00Z",
+            "billForecastDate": "2026-06-10",
+            "payeeMCC": 4899
+          }
+        ],
+        "links": { "self": "https://fake" },
+        "meta": { "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    }
+  },
+  "consentimentos": {
+    "urn:obc-fake:consent-sucesso-001": { "status": "AUTHORISED", "negar": [] },
+    "urn:obc-fake:consent-rejeitado-002": { "status": "REJECTED", "negar": [] },
+    "urn:obc-fake:consent-sem-balances-003": { "status": "AUTHORISED", "negar": ["ACCOUNTS_BALANCES_READ"] },
+    "urn:obc-fake:consent-sem-transactions-004": { "status": "AUTHORISED", "negar": ["ACCOUNTS_TRANSACTIONS_READ"] },
+    "urn:obc-fake:consent-sem-overdraft-005": { "status": "AUTHORISED", "negar": ["ACCOUNTS_OVERDRAFT_LIMITS_READ"] },
+
+    "urn:obc-fake:consent-cc-sucesso-001": { "status": "AUTHORISED", "negar": [] },
+    "urn:obc-fake:consent-cc-rejeitado-002": { "status": "REJECTED", "negar": [] },
+    "urn:obc-fake:consent-cc-sem-bills-003": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_BILLS_READ"] },
+    "urn:obc-fake:consent-cc-sem-limits-004": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_LIMITS_READ"] },
+    "urn:obc-fake:consent-cc-sem-transactions-005": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_TRANSACTIONS_READ"] }
+  }
+}
