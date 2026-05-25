@@ -6,7 +6,7 @@ Mock server do Open Finance Brasil rodando em pod, sem banco de dados. Toda a co
 
 Hexagonal, com tres camadas:
 
-```
+```text
 cmd/server/                                  # entrypoint, wiring
 internal/
   domain/                                    # entidades puras (Route, Config, Consentimento)
@@ -46,6 +46,90 @@ make run
 ```
 
 Server sobe em `http://localhost:8080`.
+
+---
+
+# Docker
+
+## Build da imagem
+
+```bash
+docker build -t fake .
+```
+
+---
+
+## Subir container do zero
+
+```bash
+docker run -d \
+  --name fake-api \
+  -p 8080:8080 \
+  fake
+```
+
+---
+
+## Subir quando o container ja existe
+
+### Verificar containers
+
+```bash
+docker ps -a | grep fake-api
+```
+
+### Parar container existente
+
+```bash
+docker stop fake-api
+```
+
+### Remover container existente
+
+```bash
+docker rm fake-api
+```
+
+### Subir novamente
+
+```bash
+docker run -d \
+  --name fake-api \
+  -p 8080:8080 \
+  fake
+```
+
+---
+
+## Remover forcadamente container existente
+
+```bash
+docker rm -f fake-api
+```
+
+---
+
+## Parar container
+
+```bash
+docker stop fake-api
+```
+
+---
+
+## Ver logs
+
+```bash
+docker logs -f fake-api
+```
+
+---
+
+## Entrar no container
+
+```bash
+docker exec -it fake-api sh
+```
 
 ## Endpoints administrativos
 
