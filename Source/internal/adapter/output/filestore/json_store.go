@@ -1,14 +1,13 @@
 package filestore
 
 import (
+	"bootstrap/internal/domain"
 	"encoding/json"
 	"errors"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"sync"
-
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/domain"
 )
 
 // JSONStore persiste a Config em um unico arquivo JSON em disco.
