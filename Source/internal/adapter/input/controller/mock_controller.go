@@ -1,13 +1,12 @@
 package controller
 
 import (
+	"bootstrap/internal/domain"
+	"bootstrap/internal/port/input"
 	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/domain"
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/port/input"
 )
 
 // MockController e o handler generico. Toda requisicao que nao bate em
@@ -67,8 +66,6 @@ func (m *MockController) Handle(c *gin.Context) {
 	c.JSON(status, body)
 }
 
-// validarConsentimento retorna (status, body, deny=true) quando a requisicao
-// deve ser bloqueada. Em caso de sucesso devolve deny=false.
 func (m *MockController) validarConsentimento(c *gin.Context, r domain.Route) (int, gin.H, bool) {
 	consentId := c.GetHeader("x-consent-id")
 	if consentId == "" {

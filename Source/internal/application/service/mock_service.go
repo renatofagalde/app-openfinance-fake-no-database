@@ -1,22 +1,15 @@
 package service
 
 import (
+	"bootstrap/internal/adapter/input/matcher"
+	"bootstrap/internal/domain"
+	"bootstrap/internal/port/input"
+	output "bootstrap/internal/port/storage"
 	"errors"
 	"strings"
 	"sync"
-
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/adapter/input/matcher"
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/domain"
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/port/input"
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/port/output"
 )
 
-// MockService implementa as duas portas de entrada:
-//   - input.Matcher  (consumida pelo MockController)
-//   - input.Admin    (consumida pelo AdminController)
-//
-// Mantem a Config em memoria, persiste mutacoes via storage.
-// Concorrencia controlada por sync.RWMutex.
 type MockService struct {
 	storage output.ConfigStorage
 	cfg     *domain.Config
