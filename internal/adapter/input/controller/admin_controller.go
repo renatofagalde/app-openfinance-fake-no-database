@@ -1,16 +1,13 @@
 package controller
 
 import (
+	"bootstrap/internal/domain"
+	"bootstrap/internal/port/input"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/domain"
-	"github.com/renatofagalde/app-openfinance-fake-no-database/internal/port/input"
 )
 
-// AdminController expoe os endpoints administrativos para inspecionar
-// e mutar a configuracao em runtime. Toda escrita e persistida no storage.
 type AdminController struct {
 	svc input.Admin
 }
@@ -34,8 +31,6 @@ func (a *AdminController) GetConfig(c *gin.Context) {
 	c.JSON(http.StatusOK, a.svc.Config())
 }
 
-// PUT /_admin/routes
-// Body: { "key": "GET /accounts", "route": { ... } }
 func (a *AdminController) UpsertRoute(c *gin.Context) {
 	var req upsertRouteRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -49,7 +44,6 @@ func (a *AdminController) UpsertRoute(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"ok": true, "key": req.Key})
 }
 
-// DELETE /_admin/routes?key=GET%20/accounts
 func (a *AdminController) DeleteRoute(c *gin.Context) {
 	key := c.Query("key")
 	if key == "" {
@@ -63,8 +57,6 @@ func (a *AdminController) DeleteRoute(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"ok": true, "key": key})
 }
 
-// PUT /_admin/consentimentos
-// Body: { "consentId": "urn:...", "consentimento": { "status": "AUTHORISED", "negar": [] } }
 func (a *AdminController) UpsertConsentimento(c *gin.Context) {
 	var req upsertConsentRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -78,7 +70,6 @@ func (a *AdminController) UpsertConsentimento(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"ok": true, "consentId": req.ConsentId})
 }
 
-// DELETE /_admin/consentimentos?consentId=urn:...
 func (a *AdminController) DeleteConsentimento(c *gin.Context) {
 	id := c.Query("consentId")
 	if id == "" {
