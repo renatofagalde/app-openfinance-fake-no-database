@@ -1,17 +1,33 @@
-FROM golang:1.21-alpine AS build
+FROM golang:1.26-alpine AS build
+
 WORKDIR /src
-COPY go.mod go.sum* ./
-RUN go mod download || true
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/app ./cmd/server
+
+COPY Source/go.mod Source/go.sum ./
+RUN go mod download
+
+COPY Source/ ./
+
+RUN CGO_ENABLED=0 GOOS=linux go build \
+    -trimpath \
+    -ldflags="-s -w" \
+    -o /out/server ./cmd/server
 
 FROM alpine:3.19
-RUN adduser -D -u 1000 app && mkdir -p /data /seed && chown -R app:app /data /seed
-COPY --from=build /out/app /app
-COPY mocks.json /seed/mocks.json
-ENV MOCKS_FILE=/data/mocks.json \
-    SEED_FILE=/seed/mocks.json \
-    PORT=8080
+
+RUN adduser -D -u 1000 app
+
+WORKDIR /app
+
+COPY --from=build /out/server /app/server
+COPY Source/mocks.json /app/mocks.json
+
+RUN chown -R app:app /app
+
 USER app
+
+ENV MOCKS_FILE=/app/mocks.json
+ENV PORT=8080
+
 EXPOSE 8080
-ENTRYPOINT ["/app"]
+
+CMD ["/app/server"]
