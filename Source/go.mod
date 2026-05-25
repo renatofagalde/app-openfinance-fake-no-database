@@ -2,10 +2,7 @@ module bootstrap
 
 go 1.26.2
 
-require (
-	github.com/gin-gonic/gin v1.12.0
-	github.com/renatofagalde/app-openfinance-fake-no-database v0.0.0-20260520012736-40d55ecc5c01
-)
+require github.com/gin-gonic/gin v1.12.0
 
 require (
 	github.com/bytedance/gopkg v0.1.3 // indirect
