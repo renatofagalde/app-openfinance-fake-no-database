@@ -109,6 +109,127 @@
       }
     },
 
+    "GET /customers/v2/personal/identifications": {
+      "permission": "CUSTOMERS_PERSONAL_IDENTIFICATIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "updateDateTime": "2026-05-19T10:00:00Z",
+            "personalId": "fake-personal-id-001",
+            "brandName": "Fake Bank",
+            "civilName": "Fulano de Tal",
+            "socialName": "",
+            "birthDate": "1990-01-01",
+            "hasBrazilianNationality": true,
+            "contacts": { "postalAddresses": [], "phones": [], "emails": [] }
+          }
+        ],
+        "links": { "self": "https://fake/customers/v2/personal/identifications" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /customers/v2/personal/qualifications": {
+      "permission": "CUSTOMERS_PERSONAL_ADITTIONALINFO_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "updateDateTime": "2026-05-19T10:00:00Z",
+          "companyCnpj": "00000000000191",
+          "occupationCode": "RECEITA_FEDERAL",
+          "occupationDescription": "01",
+          "informedIncome": {
+            "frequency": "MENSAL",
+            "amount": { "amount": "5000.00", "currency": "BRL" },
+            "date": "2026-01-01"
+          },
+          "informedPatrimony": {
+            "amount": { "amount": "100000.00", "currency": "BRL" },
+            "year": 2025
+          }
+        },
+        "links": { "self": "https://fake/customers/v2/personal/qualifications" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /customers/v2/personal/financial-relations": {
+      "permission": "CUSTOMERS_PERSONAL_ADITTIONALINFO_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "updateDateTime": "2026-05-19T10:00:00Z",
+          "startDate": "2020-01-01T00:00:00Z",
+          "productsServicesType": ["CONTA_DEPOSITO_A_VISTA"],
+          "procurators": [],
+          "accounts": [],
+          "portabilitiesReceived": [],
+          "paychecksBankLink": []
+        },
+        "links": { "self": "https://fake/customers/v2/personal/financial-relations" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /customers/v2/business/identifications": {
+      "permission": "CUSTOMERS_BUSINESS_IDENTIFICATIONS_READ",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "updateDateTime": "2026-05-19T10:00:00Z",
+            "businessId": "fake-business-id-001",
+            "brandName": "Fake Bank",
+            "companyName": "Empresa Fake Ltda",
+            "tradeName": "Fake Comercio",
+            "incorporationDate": "2010-01-01T00:00:00Z",
+            "cnpjNumber": "00000000000191",
+            "companiesCnpj": [],
+            "otherDocuments": [],
+            "parties": [],
+            "contacts": { "postalAddresses": [], "phones": [], "emails": [] }
+          }
+        ],
+        "links": { "self": "https://fake/customers/v2/business/identifications" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /customers/v2/business/qualifications": {
+      "permission": "CUSTOMERS_BUSINESS_ADITTIONALINFO_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "updateDateTime": "2026-05-19T10:00:00Z",
+          "economicActivities": [ { "code": "8599604", "isMain": true } ],
+          "informedRevenue": {
+            "frequency": "MENSAL",
+            "frequencyAdditionalInfo": "",
+            "amount": { "amount": "100000.00", "currency": "BRL" },
+            "year": 2025
+          },
+          "informedPatrimony": {
+            "amount": { "amount": "500000.00", "currency": "BRL" },
+            "date": "2025-12-31"
+          }
+        },
+        "links": { "self": "https://fake/customers/v2/business/qualifications" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+    "GET /customers/v2/business/financial-relations": {
+      "permission": "CUSTOMERS_BUSINESS_ADITTIONALINFO_READ",
+      "status": 200,
+      "body": {
+        "data": {
+          "updateDateTime": "2026-05-19T10:00:00Z",
+          "startDate": "2010-01-01T00:00:00Z",
+          "productsServicesType": ["CONTA_DEPOSITO_A_VISTA"],
+          "procurators": [],
+          "accounts": []
+        },
+        "links": { "self": "https://fake/customers/v2/business/financial-relations" },
+        "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+      }
+    },
+
     "GET /credit-cards-accounts/v2/accounts": {
       "permission": "CREDIT_CARDS_ACCOUNTS_READ",
       "status": 200,
@@ -258,6 +379,13 @@
     "urn:obc-fake:consent-sem-balances-003": { "status": "AUTHORISED", "negar": ["ACCOUNTS_BALANCES_READ"] },
     "urn:obc-fake:consent-sem-transactions-004": { "status": "AUTHORISED", "negar": ["ACCOUNTS_TRANSACTIONS_READ"] },
     "urn:obc-fake:consent-sem-overdraft-005": { "status": "AUTHORISED", "negar": ["ACCOUNTS_OVERDRAFT_LIMITS_READ"] },
+
+    "urn:obc-fake:consent-cst-sucesso-001": { "status": "AUTHORISED", "negar": [] },
+    "urn:obc-fake:consent-cst-rejeitado-002": { "status": "REJECTED", "negar": [] },
+    "urn:obc-fake:consent-cst-sem-personal-ident-003": { "status": "AUTHORISED", "negar": ["CUSTOMERS_PERSONAL_IDENTIFICATIONS_READ"] },
+    "urn:obc-fake:consent-cst-sem-personal-add-004": { "status": "AUTHORISED", "negar": ["CUSTOMERS_PERSONAL_ADITTIONALINFO_READ"] },
+    "urn:obc-fake:consent-cst-sem-business-ident-005": { "status": "AUTHORISED", "negar": ["CUSTOMERS_BUSINESS_IDENTIFICATIONS_READ"] },
+    "urn:obc-fake:consent-cst-sem-business-add-006": { "status": "AUTHORISED", "negar": ["CUSTOMERS_BUSINESS_ADITTIONALINFO_READ"] },
 
     "urn:obc-fake:consent-cc-sucesso-001": { "status": "AUTHORISED", "negar": [] },
     "urn:obc-fake:consent-cc-rejeitado-002": { "status": "REJECTED", "negar": [] },
