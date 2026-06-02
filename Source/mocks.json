@@ -373,6 +373,110 @@
       }
     }
   },
+
+  ,
+  "GET /funds/v1/investments": {
+    "permission": "FUNDS_READ",
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "brandName": "Fake Bank",
+          "companyCnpj": "00000000000191",
+          "anbimaCategory": "RENDA_FIXA",
+          "anbimaClass": "FUNDOS_RENDA_FIXA",
+          "anbimaSubclass": "RENDA_FIXA_DURACAO_LIVRE",
+          "investmentId": "fake-investment-id-001"
+        }
+      ],
+      "links": { "self": "https://fake/funds/v1/investments" },
+      "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+    }
+  },
+  "GET /funds/v1/investments/:investmentId": {
+    "permission": "FUNDS_READ",
+    "status": 200,
+    "body": {
+      "data": {
+        "name": "FAKE MASTER FIA",
+        "cnpjNumber": "00000000000140",
+        "isinCode": "BRFAKEFII0001",
+        "anbimaCategory": "RENDA_FIXA",
+        "anbimaClass": "FUNDOS_RENDA_FIXA",
+        "anbimaSubclass": "RENDA_FIXA_DURACAO_LIVRE"
+      },
+      "links": { "self": "https://fake/funds/v1/investments/fake-investment-id-001" },
+      "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+    }
+  },
+  "GET /funds/v1/investments/:investmentId/balances": {
+    "permission": "FUNDS_BALANCES_READ",
+    "status": 200,
+    "body": {
+      "data": {
+        "referenceDate": "2026-05-19",
+        "grossAmount": { "amount": "1000.04", "currency": "BRL" },
+        "netAmount": { "amount": "950.02", "currency": "BRL" },
+        "incomeTaxProvision": { "amount": "50.02", "currency": "BRL" },
+        "financialTransactionTaxProvision": { "amount": "0.00", "currency": "BRL" },
+        "blockedAmount": { "amount": "0.00", "currency": "BRL" },
+        "quotaQuantity": "42.250000",
+        "quotaGrossPriceValue": { "amount": "23.67", "currency": "BRL" }
+      },
+      "links": { "self": "https://fake/funds/v1/investments/fake-investment-id-001/balances" },
+      "meta": { "totalRecords": 1, "totalPages": 1, "requestDateTime": "2026-05-19T10:00:00Z" }
+    }
+  },
+  "GET /funds/v1/investments/:investmentId/transactions": {
+    "permission": "FUNDS_TRANSACTIONS_READ",
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "transactionId": "fake-fnd-tx-001",
+          "type": "ENTRADA",
+          "transactionType": "APLICACAO",
+          "transactionTypeAdditionalInfo": "",
+          "transactionConversionDate": "2026-04-20",
+          "transactionQuotaPrice": { "amount": "23.50", "currency": "BRL" },
+          "transactionQuotaQuantity": "10.000000",
+          "transactionValue": { "amount": "235.00", "currency": "BRL" },
+          "transactionGrossValue": { "amount": "235.00", "currency": "BRL" },
+          "incomeTax": { "amount": "0.00", "currency": "BRL" },
+          "financialTransactionTax": { "amount": "0.00", "currency": "BRL" },
+          "transactionExitFee": { "amount": "0.00", "currency": "BRL" },
+          "transactionNetValue": { "amount": "235.00", "currency": "BRL" }
+        }
+      ],
+      "links": { "self": "https://fake/funds/v1/investments/fake-investment-id-001/transactions" },
+      "meta": { "requestDateTime": "2026-05-19T10:00:00Z" }
+    }
+  },
+  "GET /funds/v1/investments/:investmentId/transactions-current": {
+    "permission": "FUNDS_TRANSACTIONS_READ",
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "transactionId": "fake-fnd-tx-current-001",
+          "type": "SAIDA",
+          "transactionType": "RESGATE",
+          "transactionTypeAdditionalInfo": "",
+          "transactionConversionDate": "2026-05-18",
+          "transactionQuotaPrice": { "amount": "23.67", "currency": "BRL" },
+          "transactionQuotaQuantity": "5.000000",
+          "transactionValue": { "amount": "118.35", "currency": "BRL" },
+          "transactionGrossValue": { "amount": "118.35", "currency": "BRL" },
+          "incomeTax": { "amount": "2.50", "currency": "BRL" },
+          "financialTransactionTax": { "amount": "0.00", "currency": "BRL" },
+          "transactionExitFee": { "amount": "0.00", "currency": "BRL" },
+          "transactionNetValue": { "amount": "115.85", "currency": "BRL" }
+        }
+      ],
+      "links": { "self": "https://fake/funds/v1/investments/fake-investment-id-001/transactions-current" },
+      "meta": { "requestDateTime": "2026-05-19T10:00:00Z" }
+    }
+  },
   "consentimentos": {
     "urn:obc-fake:consent-sucesso-001": { "status": "AUTHORISED", "negar": [] },
     "urn:obc-fake:consent-rejeitado-002": { "status": "REJECTED", "negar": [] },
@@ -391,6 +495,12 @@
     "urn:obc-fake:consent-cc-rejeitado-002": { "status": "REJECTED", "negar": [] },
     "urn:obc-fake:consent-cc-sem-bills-003": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_BILLS_READ"] },
     "urn:obc-fake:consent-cc-sem-limits-004": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_LIMITS_READ"] },
-    "urn:obc-fake:consent-cc-sem-transactions-005": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_TRANSACTIONS_READ"] }
+    "urn:obc-fake:consent-cc-sem-transactions-005": { "status": "AUTHORISED", "negar": ["CREDIT_CARDS_ACCOUNTS_TRANSACTIONS_READ"] },
+
+    "urn:obc-fake:consent-fnd-sucesso-001": { "status": "AUTHORISED", "negar": [] },
+    "urn:obc-fake:consent-fnd-rejeitado-002": { "status": "REJECTED", "negar": [] },
+    "urn:obc-fake:consent-fnd-sem-balances-003": { "status": "AUTHORISED", "negar": ["FUNDS_BALANCES_READ"] },
+    "urn:obc-fake:consent-fnd-sem-transactions-004": { "status": "AUTHORISED", "negar": ["FUNDS_TRANSACTIONS_READ"] },
+    "urn:obc-fake:consent-fnd-somente-read-005": { "status": "AUTHORISED", "negar": ["FUNDS_BALANCES_READ", "FUNDS_TRANSACTIONS_READ"] }
   }
 }
